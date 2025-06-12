@@ -16,3 +16,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('admin.dashboard');
 });
+
+// routes/web.php
+
+use App\Http\Controllers\RestaurantController;
+ Route::get('/restaurant/create', function () {
+    return view('admin.restaurant.restaurant.create');
+})->name('restaurant.create');
+
+
+Route::get('/restaurant/create', [RestaurantController::class, 'create'])->name('restaurant.create');
+Route::post('/restaurant/store', [RestaurantController::class, 'store'])->name('restaurant.store');
