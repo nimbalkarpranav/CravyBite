@@ -15,7 +15,7 @@ class ProductController extends Controller
     public function index()
     {
         // This method should return a view with a list of products
-        return view('admin.page.products');
+        return view('admin.products.index');
         
     }
 
@@ -26,7 +26,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.products.create');
     }
 
     /**

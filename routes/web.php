@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RestaurantController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,8 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/dashboard', function () {
     return view('admin.dashboard');
 });
 Route::resource('/products',ProductController::class);
 
+
+
+Route::get('/restaurant/create', [RestaurantController::class, 'create'])->name('restaurant.create');
+Route::post('/restaurant/store', [RestaurantController::class, 'store'])->name('restaurant.store');
