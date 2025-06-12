@@ -1,5 +1,9 @@
- @extends('layout.master')
- @section('content')
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Restaurant</title>
+</head>
+<body>
     <h2>Add Restaurant</h2>
 
     @if (session('success'))
@@ -29,4 +33,5 @@
 
         <button type="submit">Add Restaurant</button>
     </form>
- @endsection
+</body>
+</html>

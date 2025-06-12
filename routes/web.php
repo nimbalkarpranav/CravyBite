@@ -27,3 +27,8 @@ use App\Http\Controllers\RestaurantController;
 
 Route::get('/restaurant/create', [RestaurantController::class, 'create'])->name('restaurant.create');
 Route::post('/restaurant/store', [RestaurantController::class, 'store'])->name('restaurant.store');
+
+use App\Http\Controllers\CategoryController;
+
+Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
+Route::post('/category/store', [CategoryController::class, 'store'])->name('category.store');
