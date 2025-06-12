@@ -82,7 +82,7 @@
                 >
                   <i class="fas fa-home"></i>
                   <p>Dashboard</p>
-                  
+
               </li>
               <li class="nav-section">
                 <span class="sidebar-mini-icon">
@@ -94,41 +94,44 @@
                 <a data-bs-toggle="collapse" href="#base">
                   <i class="fas fa-layer-group"></i>
                   <p>Base</p>
-                 
+
               </li>
               <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarLayouts">
+                <a data-bs-toggle="collapse" href="#">
                   <i class="fas fa-th-list"></i>
-                  <p>Sidebar Layouts</p>
-                 
+                  <p>Category Table</p>
+
               </li>
               <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#forms">
+                <a data-bs-toggle="collapse" href="{{ route('restaurant.create') }}">
                   <i class="fas fa-pen-square"></i>
-                  <p>Forms</p>
-                 
+                  <p>restaurant Forms</p>
+
               </li>
+
+          <a data-bs-toggle="collapse"  href="{{ route('restaurant.create') }}">
+
               <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#tables">
                   <i class="fas fa-table"></i>
                   <p>Tables</p>
-                 
+
               </li>
               <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#maps">
                   <i class="fas fa-map-marker-alt"></i>
                   <p>Maps</p>
-                
+
               </li>
               <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#charts">
                   <i class="far fa-chart-bar"></i>
                   <p>Charts</p>
-                 
+
               </li>
-             
-           
-             
+
+
+
             </ul>
           </div>
         </div>
