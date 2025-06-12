@@ -34,4 +34,8 @@
         <button type="submit">Add Restaurant</button>
     </form>
 </body>
+<<<<<<< HEAD:resources/views/admin/restaurant/create.blade.php
 </html>
+=======
+</html>
+>>>>>>> 96eb714ebe1b579f83dad2fdce5d82563f41432b:resources/views/admin/restaurant/restaurant/create.blade.php
