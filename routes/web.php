@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('admin.dashboard');
 });
-Route::resource('/products',ProductController::class);
 
 
 
@@ -28,3 +27,5 @@ use App\Http\Controllers\CategoryController;
 
 Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
 Route::post('/category/store', [CategoryController::class, 'store'])->name('category.store');
+
+

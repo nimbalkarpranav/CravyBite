@@ -10,7 +10,7 @@
         <p style="color: green;">{{ session('success') }}</p>
     @endif
 
-<form action="{{ route('restaurant.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ url('/restaurant/store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <label>Name:</label>

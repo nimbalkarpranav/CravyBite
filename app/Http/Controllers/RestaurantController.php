@@ -12,10 +12,10 @@ class RestaurantController extends Controller
 {
     public function index()
     {
-        
+
     }
-        
-        
+
+
     public function create()
     {
         return view('admin.restaurant.create');
