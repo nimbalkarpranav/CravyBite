@@ -1,7 +1,7 @@
 @extends('layout.master')
 @section('title', 'Dashboard')
 @section('content')
- 
+
 <div class="container">
           <div class="page-inner">
             <div
@@ -74,7 +74,7 @@
                         <div class="numbers">
                           <p class="card-category">Sales</p>
                           <h4 class="card-title">$ 1,345</h4>
-                          <button><a href="{{ route('products.create') }}">Add Product</a></button>
+                          <button><a href="">Add Product</a></button>
                         </div>
                       </div>
                     </div>
@@ -189,7 +189,7 @@
                 </div>
               </div>
             </div>
-            
+
             <div class="row">
               <div class="col-md-4">
                 <div class="card card-round">
@@ -496,5 +496,5 @@
           </div>
         </div>
 
-  
+
 @endsection

@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Category</title>
-</head>
-<body>
+@extends('layout.master')
+@section('content')
+
+
+<br><br><br>
+
     <h2>Add Food Category</h2>
 
     @if (session('success'))
@@ -44,5 +44,4 @@
 
         <button type="submit">Add Category</button>
     </form>
-</body>
-</html>
+@endsection

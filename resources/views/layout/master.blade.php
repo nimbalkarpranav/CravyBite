@@ -66,7 +66,7 @@
 </head>
 
 <body>
-    
+
         <!-- Sidebar -->
         <div class="sidebar" data-background-color="dark">
             <div class="sidebar-logo">
@@ -86,12 +86,13 @@
                 <div class="sidebar-content">
                     <ul class="nav nav-secondary">
                         <li class="nav-item active"><a href="/dashboard"><i class="fas fa-home"></i><p>Dashboard</p></a></li>
-                       
+
                         <li class="nav-section"><span class="sidebar-mini-icon"><i class="fa fa-ellipsis-h"></i></span><h4 class="text-section">Components</h4></li>
-                        <li class="nav-item active"><a href="{{ route('products.index') }}"><i class="fas fa-user"></i><p>Products</p></a></li>
-                        
-                       
+ 
+
                         <li class="nav-item active"><a href="{{ route('restaurant.create') }}"><i class="fas fa-phone"></i><p>Restaurant</p></a></li>
+                        <li class="nav-item active"><a href="{{ route('category.create') }}"><i class="fas fa-phone"></i><p>Category</p></a></li>
+
                         {{-- <li class="nav-item active"><a href="users"><i class="fas fa-user"></i><p>Users</p></a></li>
                         <li class="nav-item active"><a href="{{ route('category.index') }}"><i class="fas fa-user"></i><p>Category</p></a></li>
                         <li class="nav-item active"><a href="{{ route('coupons.index') }}"><i class="fa-solid fa-user"></i><p>Coupon</p></a></li>
@@ -100,7 +101,7 @@
                 </div>
             </div>
         </div>
-    
+
         <!-- End Sidebar -->
 
         <!-- Main Panel -->
@@ -173,7 +174,7 @@
             <!-- End Header -->
 
             <!-- Page Content -->
-            <div class="content">
+            <div>
                 @yield('content')
             </div>
 
@@ -194,7 +195,7 @@
                 </div>
             </footer>
         </div>
-    
+
 
     <!-- Core JS Files -->
     <script src="assets/js/core/jquery-3.7.1.min.js"></script>
