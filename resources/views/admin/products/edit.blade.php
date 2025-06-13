@@ -1,6 +1,5 @@
 @extends('layout.master')
-@section('title', 'Product Details')    
-
+@section('title', 'Edit Product')    
 @section('content')
 
 <div class="container d-flex justify-content-center mt-4">
@@ -12,99 +11,105 @@
                 {{ session('success') }}
             </div>
         @endif
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('products.update', $product->product_id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
             <!-- Product Name -->
             <div class="mb-3">
                 <label class="form-label">Product Name</label>
-                <input type="text" name="name" class="form-control" value="{{ $product->name }}" required>
+                <input type="text" name="name" class="form-control" value="{{ old('name', $product->name) }}" required>
             </div>
 
             <!-- Product Image -->
             <div class="mb-3">
                 <label class="form-label">Product Image</label>
                 <input type="file" name="image" class="form-control" accept="image/*">
-                <br>
-                <img src="{{ asset('storage/' . $product->image) }}" width="100">
+                @if($product->image)
+                    <div class="mt-2">
+                        <img src="{{ asset('storage/' . $product->image) }}" width="100" class="img-thumbnail">
+                        <div class="form-check mt-2">
+                            <input class="form-check-input" type="checkbox" name="remove_image" id="remove_image">
+                            <label class="form-check-label" for="remove_image">
+                                Remove current image
+                            </label>
+                        </div>
+                    </div>
+                @endif
             </div>
-         <div class="mb-3">
-    <label class="form-label">Gallery Images</label>
-    <input type="file" name="pics[]" class="form-control" accept="image/*" multiple>
-    <br>
-    @php
-        $gallery = json_decode($product->pics, true);
-    @endphp
-    @if($gallery)
-        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            @foreach ($gallery as $index => $img)
-                <div style="position: relative; display: inline-block;">
-                    <img src="{{ asset('storage/' . $img) }}" width="80" height="80" style="object-fit: cover; border: 1px solid #ccc; padding: 2px;">
-
-                    <!-- Cross sign -->
-                    <button type="button" class="remove-img-btn" 
-                        data-img-index="{{ $index }}" 
-                        style="position: absolute; top: -8px; right: -8px; background: red; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-weight: bold; line-height: 18px;">
-                        &times;
-                    </button>
-                </div>
-            @endforeach
-        </div>
-    @endif
-</div>
-
-<!-- Hidden input to hold indexes of images to remove -->
-<input type="hidden" name="remove_pics" id="remove_pics" value="">
-            
 
             <!-- Price -->
             <div class="mb-3">
                 <label class="form-label">Price (₹)</label>
-                <input type="text" name="price" class="form-control" value="{{ $product->price }}" required>
-            </div>
-
-            <!-- Gender -->
-            <div class="mb-3">
-                <label class="form-label">Gender</label>
-                <select name="gender" class="form-control">
-                    <option value="Men" {{ $product->gender == 'Men' ? 'selected' : '' }}>Men</option>
-                    <option value="Women" {{ $product->gender == 'Women' ? 'selected' : '' }}>Women</option>
-                    <option value="Unisex" {{ $product->gender == 'Unisex' ? 'selected' : '' }}>Unisex</option>
-                    
-                </select>
+                <input type="number" step="0.01" name="price" class="form-control" value="{{ old('price', $product->price) }}" required>
             </div>
 
             <!-- Description -->
             <div class="mb-3">
                 <label class="form-label">Description</label>
-                <textarea name="description" class="form-control" rows="3" required>{{ $product->description }}</textarea>
+                <textarea name="description" class="form-control" rows="3" required>{{ old('description', $product->description) }}</textarea>
             </div>
 
             <!-- Category -->
             <div class="mb-3">
                 <label class="form-label">Category</label>
-                <select name="category" class="form-control" required>
+                <select name="category_id" class="form-control" required>
                     <option value="">Select Category</option>
                     @foreach($categories as $category)
-                        <option value="{{ $category->id }}" {{ $product->category == $category->id ? 'selected' : '' }}>
-                            {{ $category->name }}
+                        <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
+                        <option value="{{ $category->category_id }}" {{ old('category_id', $product->category_id) == $category->category_id ? 'selected' : '' }}>
+    {{ $category->name }}
+</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Restaurant -->
+            <div class="mb-3">
+                <label class="form-label">Restaurant</label>
+                <select name="restaurant_id" class="form-control" required>
+                    <option value="">Select Restaurant</option>
+                    @foreach($restaurants as $restaurant)
+                        <option value="{{ $restaurant->id }}" {{ old('restaurant_id', $product->restaurant_id) == $restaurant->id ? 'selected' : '' }}>
+                            {{ $restaurant->name }}
                         </option>
                     @endforeach
                 </select>
             </div>
-            
-            
 
-            <!-- Stock Quantity -->
+            <!-- Availability -->
             <div class="mb-3">
-                <label class="form-label">Stock Quantity</label>
-                <input type="number" name="stock_quantity" class="form-control" value="{{ $product->stock_quantity }}" required>
+                <label class="form-label">Product Status</label>
+                <select name="is_available" class="form-control">
+                    <option value="1" {{ old('is_available', $product->is_available) == 1 ? 'selected' : '' }}>Available</option>
+                    <option value="0" {{ old('is_available', $product->is_available) == 0 ? 'selected' : '' }}>Not Available</option>
+                </select>
+            </div>
+
+            <!-- Featured -->
+            <div class="mb-3">
+                <label class="form-label">Featured Product</label>
+                <select name="is_featured" class="form-control">
+                    <option value="1" {{ old('is_featured', $product->is_featured) == 1 ? 'selected' : '' }}>Yes</option>
+                    <option value="0" {{ old('is_featured', $product->is_featured) == 0 ? 'selected' : '' }}>No</option>
+                </select>
             </div>
 
             <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary w-100">Update Product</button>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Update Product</button>
+                <a href="{{ route('products.index') }}" class="btn btn-secondary">Cancel</a>
+            </div>
         </form>
     </div>
 </div>

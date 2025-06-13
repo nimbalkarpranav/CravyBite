@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Restaurant;
 use App\Models\Product;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -95,7 +96,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $product = Product::with('category')->findOrFail($id);
+        $product = Product::with('category','restaurant')->findOrFail($id);
         $categories = Category::all();
         $restaurants = Restaurant::all();
         return view('admin.products.edit', compact('product', 'categories', 'restaurants'));
@@ -110,40 +111,10 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $product = Product::findOrFail($id);
+        // Validate the request data
 
-        $request->validate([
-            'restaurant_id' => 'required|exists:restaurants,id',
-            'category_id' => 'required|exists:categories,category_id',
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric',
-            'discount' => 'nullable|numeric',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'is_available' => 'required|boolean',
-            'is_featured' => 'required|boolean',
-            'tags' => 'nullable|string',
-        ]);
 
-        // Update image if new file uploaded
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('uploads/products', 'public');
-            $product->image = $imagePath;
-        }
-
-        $product->update([
-            'restaurant_id' => $request->restaurant_id,
-            'category_id' => $request->category_id,
-            'name' => $request->name,
-            'description' => $request->description,
-            'price' => $request->price,
-            'discount' => $request->discount,
-            'is_available' => $request->is_available,
-            'is_featured' => $request->is_featured,
-            'tags' => $request->tags,
-        ]);
-
-        return redirect()->route('products.index')->with('success', 'Product updated successfully!');
+         return view('admin.products.update');
     }
 
     /**
