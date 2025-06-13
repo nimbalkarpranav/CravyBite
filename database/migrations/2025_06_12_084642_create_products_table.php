@@ -11,13 +11,11 @@ return new class extends Migration
      *
      * @return void
      */
-   public function up()
-{
+public function up(): void {
     Schema::create('products', function (Blueprint $table) {
-        $table->bigIncrements('product_id'); // Primary Key
-
-        $table->unsignedBigInteger('restaurant_id'); // Foreign Key
-        $table->unsignedBigInteger('category_id');   // Foreign Key
+        $table->bigIncrements('product_id'); // ✅ Primary Key
+        $table->unsignedBigInteger('restaurant_id'); // FK
+        $table->unsignedBigInteger('category_id');   // FK to categories.category_id
 
         $table->string('name', 255);
         $table->text('description');
@@ -28,13 +26,18 @@ return new class extends Migration
         $table->tinyInteger('is_featured')->default(0);
         $table->string('tags', 255)->nullable();
 
-        $table->timestamps(); // created_at and updated_at
+        $table->timestamps();
 
-        // Define foreign key constraints
-        $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
-        $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+        $table->foreign('restaurant_id')
+              ->references('id')->on('restaurants')->onDelete('cascade');
+
+        $table->foreign('category_id')
+              ->references('category_id')->on('categories')->onDelete('cascade');
     });
 }
+
+
+
 
     /**
      * Reverse the migrations.

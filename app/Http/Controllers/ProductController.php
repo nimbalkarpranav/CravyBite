@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Models\Restaurant;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
@@ -14,9 +17,12 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $products = Product::with('category')->get();
+        $count = 0;
+        // return $products;
         // This method should return a view with a list of products
-        return view('admin.products.index');
-        
+        return view('admin.products.index', compact('products','count'));
+
     }
 
     /**
@@ -26,7 +32,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.products.create');
+       $categories = Category::all();
+    $restaurants = Restaurant::all();
+    return view('admin.products.create', compact('categories', 'restaurants'));
     }
 
     /**
@@ -36,9 +44,44 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+{
+    // ✅ Validation
+    $request->validate([
+        'restaurant_id' => 'required|exists:restaurants,id',
+        'category_id' => 'required|exists:categories,category_id',
+        'name' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'price' => 'required|numeric',
+        'discount' => 'nullable|numeric',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'is_available' => 'required|boolean',
+        'is_featured' => 'required|boolean',
+        'tags' => 'nullable|string',
+    ]);
+
+    // ✅ Handle Image Upload
+    $imagePath = null;
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('uploads/products', 'public');
     }
+
+    // ✅ Save Product
+    Product::create([
+        'restaurant_id' => $request->restaurant_id,
+        'category_id' => $request->category_id,
+        'name' => $request->name,
+        'description' => $request->description,
+        'price' => $request->price,
+        'discount' => $request->discount,
+        'image' => $imagePath,
+        'is_available' => $request->is_available,
+        'is_featured' => $request->is_featured,
+        'tags' => $request->tags,
+    ]);
+
+    return redirect()->route('products.index')->with('success', 'Product created successfully!');
+}
+
 
     /**
      * Display the specified resource.
@@ -48,7 +91,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::with('category')->findOrFail($id);
+        return view('admin.products.show', compact('product'));
     }
 
     /**
@@ -59,7 +103,10 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::with('category')->findOrFail($id);
+        $categories = Category::all();
+        $restaurants = Restaurant::all();
+        return view('admin.products.edit', compact('product', 'categories', 'restaurants'));
     }
 
     /**
@@ -71,7 +118,10 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Validate the request data
+        
+
+         return view('admin.products.update');
     }
 
     /**

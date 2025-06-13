@@ -74,7 +74,7 @@
                         <div class="numbers">
                           <p class="card-category">Sales</p>
                           <h4 class="card-title">$ 1,345</h4>
-                          <button><a href="{{ route('products.create') }}">Add Product</a></button>
+                          
                         </div>
                       </div>
                     </div>
