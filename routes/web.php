@@ -19,7 +19,7 @@ Route::get('/', function () {
 });
 Route::resource('/products',ProductController::class);
 
-
+Route::resource('products', ProductController::class);
 
 Route::get('/restaurant/create', [RestaurantController::class, 'create'])->name('restaurant.create');
 Route::post('/restaurant/store', [RestaurantController::class, 'store'])->name('restaurant.store');

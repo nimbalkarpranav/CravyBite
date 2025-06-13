@@ -123,10 +123,8 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
+    public function destroy($product_id)
     {
-        $product = Product::findOrFail($id);
-        $product->delete();
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
+        //
     }
 }
