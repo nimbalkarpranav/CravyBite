@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Restaurant;
 use App\Models\Product;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -103,7 +104,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $product = Product::with('category')->findOrFail($id);
+        $product = Product::with('category','restaurant')->findOrFail($id);
         $categories = Category::all();
         $restaurants = Restaurant::all();
         return view('admin.products.edit', compact('product', 'categories', 'restaurants'));
@@ -116,13 +117,57 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        // Validate the request data
-        
+public function update(Request $request, $product_id)
+{
+    $request->validate([
+        'restaurant_id' => 'required|exists:restaurants,id',
+        'category_id' => 'required|exists:categories,category_id',
+        'name' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'price' => 'required|numeric',
+        'discount' => 'nullable|numeric',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'is_available' => 'required|boolean',
+        'is_featured' => 'required|boolean',
+        'tags' => 'nullable|string',
+    ]);
 
-         return view('admin.products.update');
+    // Find the product by ID
+    $product = Product::findOrFail($product_id);
+
+    // Handle image upload
+    if ($request->hasFile('image')) {
+        // Delete old image if exists
+        if ($product->image && Storage::disk('public')->exists($product->image)) {
+            Storage::disk('public')->delete($product->image);
+        }
+        $product->image = $request->file('image')->store('products', 'public');
     }
+
+    // Handle remove image checkbox
+    if ($request->has('remove_image') && $request->remove_image) {
+        if ($product->image && Storage::disk('public')->exists($product->image)) {
+            Storage::disk('public')->delete($product->image);
+        }
+        $product->image = null;
+    }
+
+    // Update the product with new data
+    $product->update([
+        'restaurant_id' => $request->restaurant_id,
+        'category_id' => $request->category_id,
+        'name' => $request->name,
+        'description' => $request->description,
+        'price' => $request->price,
+        'discount' => $request->discount,
+        'image' => $product->image, // Use the processed image value
+        'is_available' => $request->is_available,
+        'is_featured' => $request->is_featured,
+        'tags' => $request->tags,
+    ]);
+
+    return redirect()->route('products.index')->with('success', 'Product updated successfully!');
+}
 
     /**
      * Remove the specified resource from storage.

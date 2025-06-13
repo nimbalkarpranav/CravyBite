@@ -20,20 +20,25 @@
                     <td>₹{{ $product->price }}</td>
                 </tr>
                 <tr>
-                    <th>Gender</th>
-                    <td>{{ $product->discount }}</td>
+                    <th>Discount</th>
+                    <td>{{ $product->discount ?? 'NA' }}</td>
                 </tr>
                 <tr>
                     <th>Category</th>
                     <td>{{ $product->category->name ?? 'N/A' }}</td>
                 </tr>
                 <tr>
+                    <th>Restaurant
+</th>
+                    <td>{{ $product->restaurant->name ?? 'N/A' }}</td>
+                </tr>
+                <tr>
                     <th>Description</th>
                     <td>{{ $product->description }}</td>
                 </tr>
                 <tr>
-                    <th>Stock Quantity</th>
-                    <td>{{ $product->is_available }}</td>
+                    <th>Product Status</th>
+                    <td>{{ $product->is_available ? "available"  : "Not Available" }}</td>
                 </tr>
             </tbody>
         </table>
