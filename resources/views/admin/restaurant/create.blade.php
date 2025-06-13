@@ -1,37 +1,48 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Restaurant</title>
-</head>
-<body>
-    <h2>Add Restaurant</h2>
+@extends('layout.master')
 
-    @if (session('success'))
-        <p style="color: green;">{{ session('success') }}</p>
-    @endif
+@section('title', 'Add Restaurant')
 
-    <form action="{{ url('/restaurant/store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
+@section('content')
+    <div class="container">
+        <br><br>x   
+        <h2>Add Restaurant</h2>
 
-        <label>Name:</label>
-        <input type="text" name="name" required><br><br>
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
 
-        <label>Description:</label>
-        <textarea name="description"></textarea><br><br>
+        <form action="{{ url('/restaurant/store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
 
-        <label>Location:</label>
-        <input type="text" name="location" required><br><br>
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" name="name" class="form-control" required>
+            </div>
 
-        <label>Logo:</label>
-        <input type="file" name="logo"><br><br>
+            <div class="form-group">
+                <label>Description:</label>
+                <textarea name="description" class="form-control"></textarea>
+            </div>
 
-        <label>Status:</label>
-        <select name="is_active">
-            <option value="1">Active</option>
-            <option value="0">Inactive</option>
-        </select><br><br>
+            <div class="form-group">
+                <label>Location:</label>
+                <input type="text" name="location" class="form-control" required>
+            </div>
 
-        <button type="submit">Add Restaurant</button>
-    </form>
-</body>
-</html>
+            <div class="form-group">
+                <label>Logo:</label>
+                <input type="file" name="logo" class="form-control-file">
+            </div>
+
+            <div class="form-group">
+                <label>Status:</label>
+                <select name="is_active" class="form-control">
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Add Restaurant</button>
+        </form>
+    </div>
+@endsection

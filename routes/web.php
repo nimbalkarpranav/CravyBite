@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('admin.dashboard');
 });
+Route::resource('/products',ProductController::class);
 
 
 
@@ -29,3 +30,4 @@ Route::get('/category/create', [CategoryController::class, 'create'])->name('cat
 Route::post('/category/store', [CategoryController::class, 'store'])->name('category.store');
 
 
+Route::resource('/category', CategoryController::class);

@@ -37,4 +37,10 @@ class CategoryController extends Controller
 
         return redirect()->back()->with('success', 'Category added successfully.');
     }
+    public function index()
+{
+    $categories = Category::with('restaurant')->latest()->get();
+    return view('admin.Category.CategoryTable', compact('categories'));
+}
+
 }

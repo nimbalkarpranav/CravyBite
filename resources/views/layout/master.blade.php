@@ -88,10 +88,12 @@
                         <li class="nav-item active"><a href="/dashboard"><i class="fas fa-home"></i><p>Dashboard</p></a></li>
 
                         <li class="nav-section"><span class="sidebar-mini-icon"><i class="fa fa-ellipsis-h"></i></span><h4 class="text-section">Components</h4></li>
- 
+                        <li class="nav-item active"><a href="{{ route('products.index') }}"><i class="fas fa-user"></i><p>Products</p></a></li>
+
 
                         <li class="nav-item active"><a href="{{ route('restaurant.create') }}"><i class="fas fa-phone"></i><p>Restaurant</p></a></li>
-                        <li class="nav-item active"><a href="{{ route('category.create') }}"><i class="fas fa-phone"></i><p>Category</p></a></li>
+                        {{-- <li class="nav-item active"><a href="{{ route('category.create') }}"><i class="fas fa-phone"></i><p>Category ADD</p></a></li> --}}
+                     <li class="nav-item active"><a href="/category"><i class="fas fa-phone"></i><p>Category Table</p></a></li>
 
                         {{-- <li class="nav-item active"><a href="users"><i class="fas fa-user"></i><p>Users</p></a></li>
                         <li class="nav-item active"><a href="{{ route('category.index') }}"><i class="fas fa-user"></i><p>Category</p></a></li>
@@ -174,7 +176,7 @@
             <!-- End Header -->
 
             <!-- Page Content -->
-            <div>
+            <div class="content">
                 @yield('content')
             </div>
 
