@@ -44,7 +44,7 @@
                 <td>
                     <a href="{{ route('products.show', $product->product_id) }}" class="btn btn-info btn-sm">View</a>
                     <a href="{{ route('products.edit', $product->product_id) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <form action="" method="POST" class="d-inline">
+                    <form action="{{ route('products.destroy',$product->product_id ) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>

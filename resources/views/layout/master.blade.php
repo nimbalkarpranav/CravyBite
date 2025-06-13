@@ -6,6 +6,8 @@
     <title>@yield('title')</title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
     <link rel="icon" href={{ asset('assets/img/kaiadmin/favicon.ico') }} type="image/x-icon" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
     <style>
         html, body {
@@ -92,6 +94,7 @@
 
                         <li class="nav-item active"><a href="{{ route('restaurant.create') }}"><i class="fas fa-phone"></i><p>Restaurant</p></a></li>
                         <li class="nav-item active"><a href="{{ route('category.create') }}"><i class="fas fa-phone"></i><p>Category</p></a></li>
+                        <li class="nav-item active"><a href="{{ route('products.index') }}"><i class="fas fa-phone"></i><p>Products</p></a></li>
 
                         {{-- <li class="nav-item active"><a href="users"><i class="fas fa-user"></i><p>Users</p></a></li>
                         <li class="nav-item active"><a href="{{ route('category.index') }}"><i class="fas fa-user"></i><p>Category</p></a></li>

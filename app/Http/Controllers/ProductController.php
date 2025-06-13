@@ -175,8 +175,19 @@ public function update(Request $request, $product_id)
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($product_id)
     {
-        //
+        $product = Product::findOrFail($product_id);
+
+        // Delete the product image if it exists
+        if ($product->image && Storage::disk('public')->exists($product->image)) {
+            Storage::disk('public')->delete($product->image);
+        }
+
+        // Delete the product
+        $product->delete();
+
+        return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
     }
+   
 }
