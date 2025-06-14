@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 @extends('layout.master')
 @section('title', 'Add New Restaurant')
 @section('content')
@@ -97,5 +97,5 @@
         </div>
     </div>
 @endsection
-=======
+
  
