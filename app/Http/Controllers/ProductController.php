@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Restaurant;
@@ -14,81 +13,74 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function index()
     {
         $products = Product::with('category')->get();
         $count = 0;
-        // return $products;
-        // This method should return a view with a list of products
-        return view('admin.products.index', compact('products','count'));
-
+        return view('admin.products.index', compact('products', 'count'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function create()
     {
-       $categories = Category::all();
-    $restaurants = Restaurant::all();
-    return view('admin.products.create', compact('categories', 'restaurants'));
+        $categories = Category::all();
+        $restaurants = Restaurant::all();
+        return view('admin.products.create', compact('categories', 'restaurants'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
-{
-    // ✅ Validation
-    $request->validate([
-        'restaurant_id' => 'required|exists:restaurants,id',
-        'category_id' => 'required|exists:categories,category_id',
-        'name' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'price' => 'required|numeric',
-        'discount' => 'nullable|numeric',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'is_available' => 'required|boolean',
-        'is_featured' => 'required|boolean',
-        'tags' => 'nullable|string',
-    ]);
+    {
+        $request->validate([
+            'restaurant_id' => 'required|exists:restaurants,id',
+            'category_id' => 'required|exists:categories,category_id',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric',
+            'discount' => 'nullable|numeric',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'is_available' => 'required|boolean',
+            'is_featured' => 'required|boolean',
+            'tags' => 'nullable|string',
+        ]);
 
-    // ✅ Handle Image Upload
-    $imagePath = null;
-    if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('uploads/products', 'public');
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('uploads/products', 'public');
+        }
+
+        Product::create([
+            'restaurant_id' => $request->restaurant_id,
+            'category_id' => $request->category_id,
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'discount' => $request->discount,
+            'image' => $imagePath,
+            'is_available' => $request->is_available,
+            'is_featured' => $request->is_featured,
+            'tags' => $request->tags,
+        ]);
+
+        return redirect()->route('products.index')->with('success', 'Product created successfully!');
     }
-
-    // ✅ Save Product
-    Product::create([
-        'restaurant_id' => $request->restaurant_id,
-        'category_id' => $request->category_id,
-        'name' => $request->name,
-        'description' => $request->description,
-        'price' => $request->price,
-        'discount' => $request->discount,
-        'image' => $imagePath,
-        'is_available' => $request->is_available,
-        'is_featured' => $request->is_featured,
-        'tags' => $request->tags,
-    ]);
-
-    return redirect()->route('products.index')->with('success', 'Product created successfully!');
-}
-
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function show($id)
     {
@@ -100,7 +92,7 @@ class ProductController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function edit($id)
     {
@@ -115,79 +107,24 @@ class ProductController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-public function update(Request $request, $product_id)
-{
-    $request->validate([
-        'restaurant_id' => 'required|exists:restaurants,id',
-        'category_id' => 'required|exists:categories,category_id',
-        'name' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'price' => 'required|numeric',
-        'discount' => 'nullable|numeric',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'is_available' => 'required|boolean',
-        'is_featured' => 'required|boolean',
-        'tags' => 'nullable|string',
-    ]);
+    public function update(Request $request, $id)
+    {
+        // Validate the request data
 
-    // Find the product by ID
-    $product = Product::findOrFail($product_id);
 
-    // Handle image upload
-    if ($request->hasFile('image')) {
-        // Delete old image if exists
-        if ($product->image && Storage::disk('public')->exists($product->image)) {
-            Storage::disk('public')->delete($product->image);
-        }
-        $product->image = $request->file('image')->store('products', 'public');
+         return view('admin.products.update');
     }
-
-    // Handle remove image checkbox
-    if ($request->has('remove_image') && $request->remove_image) {
-        if ($product->image && Storage::disk('public')->exists($product->image)) {
-            Storage::disk('public')->delete($product->image);
-        }
-        $product->image = null;
-    }
-
-    // Update the product with new data
-    $product->update([
-        'restaurant_id' => $request->restaurant_id,
-        'category_id' => $request->category_id,
-        'name' => $request->name,
-        'description' => $request->description,
-        'price' => $request->price,
-        'discount' => $request->discount,
-        'image' => $product->image, // Use the processed image value
-        'is_available' => $request->is_available,
-        'is_featured' => $request->is_featured,
-        'tags' => $request->tags,
-    ]);
-
-    return redirect()->route('products.index')->with('success', 'Product updated successfully!');
-}
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($product_id)
     {
-        $product = Product::findOrFail($product_id);
-
-        // Delete the product image if it exists
-        if ($product->image && Storage::disk('public')->exists($product->image)) {
-            Storage::disk('public')->delete($product->image);
-        }
-
-        // Delete the product
-        $product->delete();
-
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
+        //
     }
-   
 }
