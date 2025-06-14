@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Restaurant</title>
-</head>
-<body>
+@extends('layout.master')
+@section('content')
     <h2>Add Restaurant</h2>
 
     @if (session('success'))
@@ -33,5 +29,4 @@
 
         <button type="submit">Add Restaurant</button>
     </form>
-</body>
-</html>
+ @endsection

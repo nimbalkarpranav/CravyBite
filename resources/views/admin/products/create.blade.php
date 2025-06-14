@@ -1,5 +1,5 @@
-@extends('layout.master')
-@section('title', 'Create Product') 
+ @extends('layout.master')
+@section('title', 'Create Product')
 @section('content')
 
 <div class="container" style="max-width: 600px; margin: 20px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
@@ -15,7 +15,7 @@
         @csrf
 
         <div style="display: grid; gap: 5px;">
-            <label style="font-weight: 500;">Restaurant</label>
+            <label style="font-weight: 500;"> Restaurant</label>
             <select name="restaurant_id" required style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
                 <option value="">-- Select Restaurant --</option>
                 @foreach ($restaurants as $restaurant)
