@@ -33,9 +33,6 @@ Route::post('/category/store', [CategoryController::class, 'store'])->name('cate
 
 Route::resource('/category', CategoryController::class);
 
-<<<<<<< HEAD
- 
-=======
 
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
@@ -55,4 +52,3 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         return view('user.dashboard');
     })->name('dashboard');
 });
->>>>>>> d9e59e317658629296fcbd3b375f7632d9dbff11

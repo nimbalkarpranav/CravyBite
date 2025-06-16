@@ -1,5 +1,5 @@
 @extends('layout.master')
-@section('title', 'Create Product') 
+@section('title', 'Create Product')
 @section('content')
 
 <div class="container py-4">
