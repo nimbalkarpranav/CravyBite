@@ -37,6 +37,11 @@ class AppUserAuthController extends Controller
     $user = auth()->user();
     $token = $user->createToken('app_token')->plainTextToken;
 
-    return response()->json(['token' => $token, 'user' => $user]);  
+    return response()->json(['token' => $token, 'user' => $user]);
 }
+
+
+
+
+ 
 }
