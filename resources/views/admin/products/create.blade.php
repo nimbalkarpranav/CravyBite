@@ -8,6 +8,14 @@
             <h2 class="mb-0 text-center">Create Product</h2>
         </div>
 
+<<<<<<< HEAD
+                <div>
+                    <label style="display: block; font-weight: 500; margin-bottom: 6px; color: #4a5568;">Category</label>
+                    <select name="category_id" required style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px; background: #f8fafc;">
+                        <option value="">-- Select Category --</option>
+                        @foreach ($categories as $category)
+                            <option value="{{$category->category_id }}">{{ $category->name }}</option>
+=======
         <div class="card-body p-4">
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show">
@@ -22,6 +30,7 @@
                     <ul class="mb-0">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
+>>>>>>> d9e59e317658629296fcbd3b375f7632d9dbff11
                         @endforeach
                     </ul>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
