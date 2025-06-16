@@ -150,11 +150,18 @@
                                                 <div class="avatar-lg">
                                                     <img src={{ asset('assets/img/profile.jpg') }} alt="image profile" class="avatar-img rounded" />
                                                 </div>
-                                                <div class="u-text">
-                                                    <h4>Hizrian</h4>
-                                                    <p class="text-muted">hello@example.com</p>
-                                                    <a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
-                                                </div>
+                                               @php
+                                                        $user = auth()->user();
+                                                    @endphp
+
+                                                    @if($user)
+                                                    <div class="u-text">
+                                                        <h4>{{ $user->name }}</h4>
+                                                        <p class="text-muted">{{ $user->email }}</p>
+                                                        <a href="{{ route('profile.show') }}" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+                                                    </div>
+                                                    @endif
+                                                
                                             </div>
                                         </li>
                                         <li>
@@ -165,14 +172,13 @@
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="#">Account Setting</a>
                                             <div class="dropdown-divider"></div>
-                                            <form action="{{route('logout')}}" method="POST">
+                                          <form method="POST" action="{{ route('logout') }}">
                                                 @csrf
-                                                @method('DELETE')
-                                                <button>
-                                                        <a class="dropdown-item" href="">Logout</a>
+                                                <button type="submit" class="dropdown-item text-start w-100">
+                                                    Logout
                                                 </button>
-                                                
                                             </form>
+
                                             
                                         </li>
                                     </div>

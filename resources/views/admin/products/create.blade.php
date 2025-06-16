@@ -15,6 +15,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             @endif
+.
 
             @if ($errors->any())
                 <div class="alert alert-danger alert-dismissible fade show">
