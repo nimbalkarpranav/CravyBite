@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container mt-4">
-        <h2 class="mb-3">Products</h2>
+       
 
         <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">
             Add Product
@@ -19,6 +19,7 @@
                     <th>Image</th>
                     <th>Price</th>
                     <th>Category</th>
+                    <th>Food Type</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -26,20 +27,26 @@
             <tbody>
                 @forelse ($products as $product )
                 <tr>
+                
                     <td>{{ ++$count }}</td>
-                    <td>{{$product->name}}</td>
+                    <td>{{$product->pr_name}}</td>
                     <td>
-                        <img src="{{ asset('storage/' . $product->image) }}" width="50" height="50" alt="Product Image" >
+                        <img src="{{ asset('storage/'. $product->pr_image) }}" width="50" height="100" alt="Product Image" >
                     </td>
-                    <td>{{$product->price}}</td>
+                    <td>{{$product->pr_price}}</td>
                     <td>{{$product->category->name}}</td>
                     <td>
-                        @if ($product->is_available == 1)
-                            <span class="badge bg-success">Active</span>
-                        @else
-                        <span class="badge bg-danger">Inactive</span>
-                    @endif
+
+                        <span class="badge {{ $product->food_type == 1 ? 'bg-success' : 'bg-danger' }} text-white">
+                            {{ $product->food_type == 1 ? 'Veg' : 'Non-Veg' }}
+                        </span>
                 </td>
+                    <td>
+                        <span class="badge {{ $product->status == 1 ? 'bg-success' : 'bg-danger' }} text-white">
+                            {{ $product->status == 1 ? 'Active' : 'Inactive' }}
+                        </span>
+                </td>
+                  
 
                 <td>
                     <a href="{{ route('products.show', $product->product_id) }}" class="btn btn-info btn-sm">View</a>

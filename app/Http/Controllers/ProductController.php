@@ -18,6 +18,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('category')->get();
+        // return $products;
         $count = 0;
         return view('admin.products.index', compact('products', 'count'));
     }
@@ -49,7 +50,8 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'discount' => 'nullable|numeric',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|mimes:jpeg,png,webp,jpg,gif|max:2048',
+             'food_type' => 'required|boolean',
             'is_available' => 'required|boolean',
             'is_featured' => 'required|boolean',
             'tags' => 'nullable|string',
@@ -57,19 +59,20 @@ class ProductController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('uploads/products', 'public');
+            $imagePath = $request->file('image')->store('products', 'public');
         }
 
         Product::create([
             'restaurant_id' => $request->restaurant_id,
             'category_id' => $request->category_id,
-            'name' => $request->name,
-            'description' => $request->description,
-            'price' => $request->price,
-            'discount' => $request->discount,
-            'image' => $imagePath,
-            'is_available' => $request->is_available,
-            'is_featured' => $request->is_featured,
+            'pr_name' => $request->name,
+            'pr_description' => $request->description,
+            'pr_price' => $request->price,
+            'pr_discount' => $request->discount,
+            'pr_image' => $imagePath,
+            'pr_food_type' => $request->food_type,
+            'Availability' => $request->is_available,
+            'status' => $request->is_featured,
             'tags' => $request->tags,
         ]);
 
@@ -97,6 +100,7 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::with('category','restaurant')->findOrFail($id);
+        
         $categories = Category::all();
         $restaurants = Restaurant::all();
         return view('admin.products.edit', compact('product', 'categories', 'restaurants'));
@@ -111,10 +115,46 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Validate the request data
+         $request->validate([
+            'restaurant_id' => 'required|exists:restaurants,id',
+            'category_id' => 'required|exists:categories,category_id',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric',
+            'discount' => 'nullable|numeric',
+            'image' => 'nullable|mimes:jpeg,png,webp,jpg,gif|max:2048',
+             'food_type' => 'required|boolean',
+            'is_available' => 'required|boolean',
+            'is_featured' => 'required|boolean',
+            'tags' => 'nullable|string',
+        ]);
+        $product = Product::findOrFail($id);
+          $imagePath = null;
+        if ($request->hasFile('image')) {
+           $oldImagePath =  public_path("storage/". $product->pr_image);
+            // Delete the old image if it exist
+            if(file_exists($oldImagePath)){
+                @unlink(public_path($product->pr_image));
+            }  
+             $imagePath = $request->file('image')->store('products', 'public');     
+        }  
 
+        $product->update([
+            'restaurant_id' => $request->restaurant_id,
+            'category_id' => $request->category_id,
+            'pr_name' => $request->name,
+            'pr_description' => $request->description,
+            'pr_price' => $request->price,
+            'pr_discount' => $request->discount,
+            'pr_image' => $imagePath ? $imagePath : $product->pr_image,
+            'pr_food_type' => $request->food_type,
+            'Availability' => $request->is_available,
+            'status' => $request->is_featured,
+            'tags' => $request->tags,   
 
-         return view('admin.products.update');
+        ]); 
+        return redirect()->route('products.index')->with('success', 'Product updated successfully!');
+         
     }
 
     /**
@@ -124,7 +164,17 @@ class ProductController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($product_id)
+
     {
-        //
+        $product = Product::findOrFail($product_id);
+
+        // Delete the image if it exists
+        if ($product->pr_image && Storage::disk('public')->exists($product->pr_image)) {
+            Storage::disk('public')->delete($product->pr_image);
+        }
+
+        $product->delete();
+
+        return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
     }
 }
