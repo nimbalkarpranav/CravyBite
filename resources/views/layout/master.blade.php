@@ -87,7 +87,7 @@
             <div class="sidebar-wrapper scrollbar scrollbar-inner">
                 <div class="sidebar-content">
                     <ul class="nav nav-secondary">
-                        <li class="nav-item active"><a href="/dashboard"><i class="fas fa-home"></i><p>Dashboard</p></a></li>
+                        <li class="nav-item active"><a href="/"><i class="fas fa-home"></i><p>Dashboard</p></a></li>
 
                         <li class="nav-section"><span class="sidebar-mini-icon"><i class="fa fa-ellipsis-h"></i></span><h4 class="text-section">Components</h4></li>
                         <li class="nav-item active"><a href="{{ route('products.index') }}"><i class="fas fa-user"></i><p>Products</p></a></li>
@@ -165,7 +165,15 @@
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="#">Account Setting</a>
                                             <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Logout</a>
+                                            <form action="{{route('logout')}}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button>
+                                                        <a class="dropdown-item" href="">Logout</a>
+                                                </button>
+                                                
+                                            </form>
+                                            
                                         </li>
                                     </div>
                                 </ul>
@@ -174,6 +182,8 @@
                     </div>
                 </nav>
             </div>
+
+         
             <!-- End Header -->
 
             <!-- Page Content -->
@@ -181,23 +191,8 @@
                 @yield('content')
             </div>
 
-            <!-- Footer -->
-            <footer class="footer" >
-                <div class="container-fluid d-flex justify-content-between py-2">
-                    <nav class="pull-left">
-                        <ul class="nav">
-                            <li class="nav-item"><a class="nav-link" href="/">BMT Fashion </a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Licenses</a></li>
-                        </ul>
-                    </nav>
-                    <div class="copyright">
-                        2025, made with <i class="fa fa-heart heart text-danger"></i> by <a href="#">Abhishek Sabale</a>
-                    </div>
-                    <div>Distributed by <a target="_blank" href="#">ThemeWagon</a>.</div>
-                </div>
-            </footer>
-        </div>
+           
+       
 
 
     <!-- Core JS Files -->

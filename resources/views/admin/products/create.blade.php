@@ -1,98 +1,127 @@
- @extends('layout.master')
-@section('title', 'Create Product')
+@extends('layout.master')
+@section('title', 'Create Product') 
 @section('content')
 
-<div class="container" style="max-width: 900px; margin: 20px auto; padding: 25px; background: white; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.1);">
-    <h2 style="margin-bottom: 25px; color: #2d3748; font-size: 26px; border-bottom: 1px solid #eee; padding-bottom: 10px;">Create Product</h2>
-
-    @if (session('success'))
-        <div style="background: #ebf8ff; color: #2b6cb0; padding: 12px; border-radius: 6px; margin-bottom: 20px; border-left: 4px solid #4299e1;">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-
-        <div style="display: grid; gap: 5px;">
-            <label style="font-weight: 500;">Restaurant</label>
-            <select name="restaurant_id" required style="padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-                <option value="">-- Select Restaurant --</option>
-                @foreach ($restaurants as $restaurant)
-                    <option value="{{ $restaurant->id }}">{{ $restaurant->name }}</option>
-                @endforeach
-            </select>
+<div class="container py-4">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-dark text-white">
+            <h2 class="mb-0 text-center">Create Product</h2>
         </div>
 
-                <div>
-                    <label style="display: block; font-weight: 500; margin-bottom: 6px; color: #4a5568;">Category</label>
-                    <select name="category_id" required style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px; background: #f8fafc;">
-                        <option value="">-- Select Category --</option>
-                        @foreach ($categories as $category)
-                            <option value="{{ $category->category_id }}">{{ $category->name }}</option>
+        <div class="card-body p-4">
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
                         @endforeach
-                    </select>
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
+            @endif
 
-                <div>
-                    <label style="display: block; font-weight: 500; margin-bottom: 6px; color: #4a5568;">Name</label>
-                    <input type="text" name="name" required style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px;">
-                </div>
+            <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
 
-                <div>
-                    <label style="display: block; font-weight: 500; margin-bottom: 6px; color: #4a5568;">Description</label>
-                    <textarea name="description" rows="4" style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px;"></textarea>
-                </div>
-            </div>
+                <div class="row g-4">
+                    <!-- Left Column -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Restaurant</label>
+                            <select name="restaurant_id" class="form-select" required>
+                                <option value="">-- Select Restaurant --</option>
+                                @foreach ($restaurants as $restaurant)
+                                    <option value="{{ $restaurant->id }}">{{ $restaurant->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
-            <!-- Right Column -->
-            <div style="display: grid; gap: 15px;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div>
-                        <label style="display: block; font-weight: 500; margin-bottom: 6px; color: #4a5568;">Price ($)</label>
-                        <input type="number" name="price" step="0.01" required style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px;">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Category</label>
+                            <select name="category_id" class="form-select" required>
+                                <option value="">-- Select Category --</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->category_id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Product Name</label>
+                            <input type="text" name="name" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Description</label>
+                            <textarea name="description" class="form-control" rows="3" required></textarea>
+                        </div>
                     </div>
-                    <div>
-                        <label style="display: block; font-weight: 500; margin-bottom: 6px; color: #4a5568;">Discount (%)</label>
-                        <input type="number" name="discount" step="0.01" style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px;">
+
+                    <!-- Right Column -->
+                    <div class="col-md-6">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Price (₹)</label>
+                                <input type="number" step="0.01" name="price" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Discount (%)</label>
+                                <input type="number" step="0.01" name="discount" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Product Image</label>
+                            <input type="file" name="image" class="form-control" accept="image/*">
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Food Type</label>
+                                <select name="food_type" class="form-select">
+                                    <option value="1">Veg</option>
+                                    <option value="0">Non-Veg</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Availability</label>
+                                <select name="is_available" class="form-select">
+                                    <option value="1">Available</option>
+                                    <option value="0">Not Available</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Status</label>
+                                <select name="is_featured" class="form-select">
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Tags</label>
+                            <input type="text" name="tags" class="form-control" placeholder="tag1, tag2, tag3">
+                        </div>
                     </div>
                 </div>
 
-                <div>
-                    <label style="display: block; font-weight: 500; margin-bottom: 6px; color: #4a5568;">Image</label>
-                    <div style="border: 1px dashed #cbd5e0; border-radius: 6px; padding: 15px; text-align: center; background: #f8fafc;">
-                        <input type="file" name="image" style="width: 100%;">
-                    </div>
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="{{ route('products.index') }}" class="btn btn-outline-secondary px-4">Cancel</a>
+                    <button type="submit" class="btn btn-dark px-4">
+                        <i class="fas fa-plus-circle me-2"></i>Create Product
+                    </button>
                 </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div>
-                        <label style="display: block; font-weight: 500; margin-bottom: 6px; color: #4a5568;">Availability</label>
-                        <select name="is_available" style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px;">
-                            <option value="1">Available</option>
-                            <option value="0">Not Available</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label style="display: block; font-weight: 500; margin-bottom: 6px; color: #4a5568;">Featured</label>
-                        <select name="is_featured" style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px;">
-                            <option value="0">No</option>
-                            <option value="1">Yes</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div>
-                    <label style="display: block; font-weight: 500; margin-bottom: 6px; color: #4a5568;">Tags</label>
-                    <input type="text" name="tags" style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px;" placeholder="tag1, tag2, tag3">
-                </div>
-            </div>
+            </form>
         </div>
-
-        <button type="submit" style="background: #4299e1; color: white; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; margin-top: 20px; width: 100%; font-size: 16px; transition: background 0.3s;">
-            Add Product
-        </button>
-    </form>
+    </div>
 </div>
 
 @endsection
