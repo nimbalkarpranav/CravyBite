@@ -14,14 +14,19 @@ class RouteServiceProvider extends ServiceProvider
      * The path to the "home" route for your application.
      *
      * Typically, users are redirected here after authentication.
+     * 
      *
      * @var string
      */
+<<<<<<< HEAD
 
 
 public const HOME = 'dashboard';
 
 
+=======
+    public const HOME = 'dashboard';
+>>>>>>> e5d68172e6b298b1157695125ca58cef1b68b8f6
     public static function redirectTo()
 {
     $user = auth()->user();

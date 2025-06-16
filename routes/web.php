@@ -35,9 +35,9 @@ Route::resource('/category', CategoryController::class);
 
 
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
+Route::middleware(['auth', 'is_admin'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard'); // or admin.dashboard
     });
 });
 
