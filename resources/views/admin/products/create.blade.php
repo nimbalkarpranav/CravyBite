@@ -29,7 +29,7 @@
                     <select name="category_id" required style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 6px; background: #f8fafc;">
                         <option value="">-- Select Category --</option>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->category_id }}">{{ $category->name }}</option>
+                            <option value="{{$category->category_id }}">{{ $category->name }}</option>
                         @endforeach
                     </select>
                 </div>

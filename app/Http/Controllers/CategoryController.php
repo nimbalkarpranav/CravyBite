@@ -43,4 +43,15 @@ class CategoryController extends Controller
     return view('admin.Category.CategoryTable', compact('categories'));
 }
 
+
+
+
+public function apiIndex()
+{
+    $categories = Category::with('restaurant')->latest()->get();
+
+    return response()->json(
+         $categories
+    );
+}
 }

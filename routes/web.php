@@ -31,3 +31,5 @@ Route::post('/category/store', [CategoryController::class, 'store'])->name('cate
 
 
 Route::resource('/category', CategoryController::class);
+
+ 

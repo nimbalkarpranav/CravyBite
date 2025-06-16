@@ -17,3 +17,15 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+use App\Http\Controllers\RestaurantController;
+
+Route::get('/restaurants', [RestaurantController::class, 'apiShow']);
+
+
+Route::get('/all/restaurants', [RestaurantController::class, 'apiIndex']);
+
+
+use App\Http\Controllers\CategoryController;
+
+Route::get('/categories', [CategoryController::class, 'apiIndex']);

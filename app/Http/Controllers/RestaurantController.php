@@ -45,4 +45,36 @@ class RestaurantController extends Controller
 
         return redirect()->back()->with('success', 'Restaurant added successfully.');
     }
+
+    public function apiShow()
+{
+    $restaurant = Restaurant::all();
+
+    if (!$restaurant) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Restaurant not found'
+        ], 404);
+    }
+
+    return response()->json([
+        'status' => true,
+        'data' => $restaurant
+    ]);
+}
+public function apiIndex()
+{
+    $restaurants = Restaurant::all();
+
+//     return response()->json([
+//         'status' => true,
+//         'count' => $restaurants->count(),
+//         'data' => $restaurants
+//     ]);
+    return response()->json(Restaurant::all()
+
+);
+
+}
+
 }
