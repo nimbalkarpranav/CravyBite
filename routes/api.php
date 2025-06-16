@@ -31,7 +31,7 @@ Route::get('/all/restaurants', [RestaurantController::class, 'apiIndex']);
 use App\Http\Controllers\CategoryController;
 
 Route::get('/categories', [CategoryController::class, 'apiIndex']);
- 
+
 
 Route::post('app/register', [AppUserAuthController::class, 'register']);
 Route::post('app/login', [AppUserAuthController::class, 'login']);

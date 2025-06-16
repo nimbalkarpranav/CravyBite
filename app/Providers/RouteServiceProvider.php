@@ -17,10 +17,15 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
+
+
+public const HOME = 'dashboard';
+
+
     public static function redirectTo()
 {
     $user = auth()->user();
-    
+
     if ($user->role === 'admin') {
         return '/admin/dashboard';
     } elseif ($user->role === 'employee') {
