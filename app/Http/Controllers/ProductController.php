@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Restaurant;
 use App\Models\Product;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -100,7 +101,7 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::with('category','restaurant')->findOrFail($id);
-        
+
         $categories = Category::all();
         $restaurants = Restaurant::all();
         return view('admin.products.edit', compact('product', 'categories', 'restaurants'));
@@ -135,9 +136,9 @@ class ProductController extends Controller
             // Delete the old image if it exist
             if(file_exists($oldImagePath)){
                 @unlink(public_path($product->pr_image));
-            }  
-             $imagePath = $request->file('image')->store('products', 'public');     
-        }  
+            }
+             $imagePath = $request->file('image')->store('products', 'public');
+        }
 
         $product->update([
             'restaurant_id' => $request->restaurant_id,
@@ -150,11 +151,11 @@ class ProductController extends Controller
             'pr_food_type' => $request->food_type,
             'Availability' => $request->is_available,
             'status' => $request->is_featured,
-            'tags' => $request->tags,   
+            'tags' => $request->tags,
 
-        ]); 
+        ]);
         return redirect()->route('products.index')->with('success', 'Product updated successfully!');
-         
+
     }
 
     /**
@@ -177,4 +178,21 @@ class ProductController extends Controller
 
         return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
     }
+
+
+public function apiIndex()
+{
+    $products = Product::all();
+
+    return response()->json([
+        'status' => true,
+        'count' => $products->count(),
+        'data' => $products
+    ]);
+}
+
+
+
+
+
 }
